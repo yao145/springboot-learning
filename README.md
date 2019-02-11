@@ -7,6 +7,7 @@
 3、添加mysql支持，其中使用mybatis-plus插件-ok
 
 4、基于RBAC进行用户权限的控制，使用shiro中间件-ok
+   改进点：MyShiroRealm中可以将用户权限进行缓存操作
 
 5、添加jwt登录验证，token验证+用户权限检验-ok
    登录成功后将jwt放入cookies，退出时清空cookies；
@@ -15,6 +16,9 @@
 
 6、日志输出集成-ok
 
-7、配置跨域支持，CorsFilter.java-为侧式
+7、配置跨域支持，CorsFilter.java-未侧式
 
-8、添加分布式锁
+8、增加Lombok插件，减少很多重复代码的书写。
+   比如说getter/setter/toString等方法的编写
+
+9、添加分布式锁
