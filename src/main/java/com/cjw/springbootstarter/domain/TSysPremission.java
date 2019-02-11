@@ -2,8 +2,10 @@ package com.cjw.springbootstarter.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 @ApiModel(value = "权限基本信息表")
+@Data
 public class TSysPremission {
 
     @ApiModelProperty(value = "编号")
@@ -24,86 +26,4 @@ public class TSysPremission {
     private String icon;
     @ApiModelProperty(value = "内部排序")
     private long orderNum;
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public String getDescripion() {
-        return descripion;
-    }
-
-    public void setDescripion(String descripion) {
-        this.descripion = descripion;
-    }
-
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-
-    public long getPid() {
-        return pid;
-    }
-
-    public void setPid(long pid) {
-        this.pid = pid;
-    }
-
-
-    public String getPerms() {
-        return perms;
-    }
-
-    public void setPerms(String perms) {
-        this.perms = perms;
-    }
-
-
-    public long getType() {
-        return type;
-    }
-
-    public void setType(long type) {
-        this.type = type;
-    }
-
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-
-    public long getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(long orderNum) {
-        this.orderNum = orderNum;
-    }
-
 }

@@ -1,9 +1,12 @@
 package com.cjw.springbootstarter.exception;
 
 
+import lombok.Data;
+
 /**
  * 自定义异常类
  */
+@Data
 public class MyException extends RuntimeException {
 
 
@@ -21,21 +24,5 @@ public class MyException extends RuntimeException {
         super(msg);
         this.msg = msg;
         this.code = code;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 }

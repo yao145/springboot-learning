@@ -10,6 +10,8 @@
  */
 package com.cjw.springbootstarter.domain;
 
+import lombok.Data;
+
 /**
  * 〈用户登录返回对象〉
  *
@@ -17,23 +19,8 @@ package com.cjw.springbootstarter.domain;
  * @create 2019/1/23
  * @since 1.0.0
  */
+@Data
 public class TSysLoginResult {
     private boolean isLogin = false;
     private String msg;
-
-    public boolean isLogin() {
-        return isLogin;
-    }
-
-    public void setLogin(boolean login) {
-        isLogin = login;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 }
