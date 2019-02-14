@@ -12,7 +12,6 @@ package com.cjw.springbootstarter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cjw.springbootstarter.domain.TSysPermissionRole;
-import com.cjw.springbootstarter.domain.TSysRole;
 
 /**
  * 〈权限-角色对应表〉
@@ -22,5 +21,4 @@ import com.cjw.springbootstarter.domain.TSysRole;
  * @since 1.0.0
  */
 public interface PermissionRoleMapper extends BaseMapper<TSysPermissionRole> {
-
 }

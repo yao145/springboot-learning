@@ -17,7 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import sun.awt.geom.AreaOp;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
@@ -53,6 +56,11 @@ public class TestMyBatisPlus {
         List<TSysPremission> premissionList = GlobeVarData.premissionList.stream().
                 filter(a -> permissionIdList.contains(a.getId())).collect(Collectors.toList());
         System.out.println("权限列表获取完成，共计：" + premissionList.size());
+    }
+
+    @Test
+    public void testHashSet() {
+
     }
 }
 

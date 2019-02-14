@@ -10,6 +10,7 @@
  */
 package com.cjw.springbootstarter.filter;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.JsonResultData;
 import com.cjw.springbootstarter.base.PublicResultConstant;
@@ -49,7 +50,7 @@ public class OAuth2Filter extends BasicHttpAuthenticationFilter {
         //判断请求的请求头是否带上 "Token"
         if (!StringUtils.isEmpty(token)) {
             //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
-            try {
+                try {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {

@@ -35,4 +35,9 @@ public class ApplicationConstant {
     //密钥
     public static final String TOKEN_APPSECRET = "yaozhiwu";
 
+    //redis实现分布式锁时的临时key
+    public static final String REDIS_LOCK_KEY = "this_is_a_key";
+    //分布式锁时，key的最长时间
+    public static final int REDIS_LOCK_KEY_EXPIRE_TIME = 60;
+
 }
