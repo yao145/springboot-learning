@@ -1,3 +1,5 @@
+该项目作为《广水国土资源一张图》后台
+
 整个项目的简要说明
 
 1、构建项目的基础目录结构-ok
@@ -25,7 +27,7 @@
 9、添加redis支持   基本操作使用jedis    -ok
    添加分布式锁  使用redisson方式    两种redis客户端互补
    测试：http://localhost:8080/user/redisson  jmeter进行测试
-   
+      
 10、结合redis，添加10分钟内5次登录操作的限制
 
 11、添加图片验证码的支持，参考：https://blog.csdn.net/larger5/article/details/79522105
