@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cjw.springbootstarter.base.GlobeVarData;
-import com.cjw.springbootstarter.domain.TSysPermissionRole;
-import com.cjw.springbootstarter.domain.TSysPremission;
-import com.cjw.springbootstarter.domain.TSysRoleUser;
-import com.cjw.springbootstarter.domain.TSysUser;
+import com.cjw.springbootstarter.domain.sys.TSysPermissionRole;
+import com.cjw.springbootstarter.domain.sys.TSysPremission;
+import com.cjw.springbootstarter.domain.sys.TSysUser;
 import com.cjw.springbootstarter.mapper.RoleUserMapper;
 import com.cjw.springbootstarter.mapper.UserMapper;
 import org.junit.Test;
@@ -15,12 +14,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import sun.awt.geom.AreaOp;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)

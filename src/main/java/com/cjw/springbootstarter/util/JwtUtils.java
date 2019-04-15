@@ -12,7 +12,7 @@ package com.cjw.springbootstarter.util;
 
 import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.PublicResultConstant;
-import com.cjw.springbootstarter.domain.TSysUser;
+import com.cjw.springbootstarter.domain.sys.TSysUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,26 +1,13 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: UserService
- * Author:   yao
- * Date:     2019/1/23 15:25
- * Description: 用户操作业务类
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package com.cjw.springbootstarter.service;
 
-import com.cjw.springbootstarter.domain.TSysPremission;
-import com.cjw.springbootstarter.domain.TSysUser;
+import com.cjw.springbootstarter.domain.sys.TSysPremission;
+import com.cjw.springbootstarter.domain.sys.TSysUser;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * 〈用户操作业务接口〉
- *
- * @author yao
- * @create 2019/1/23
- * @since 1.0.0
+ * 用户基本信息
  */
 public interface UserService {
     TSysUser findByUserName(String userName);

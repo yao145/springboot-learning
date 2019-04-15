@@ -12,16 +12,14 @@ package com.cjw.springbootstarter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cjw.springbootstarter.base.GlobeVarData;
-import com.cjw.springbootstarter.domain.TSysPermissionRole;
-import com.cjw.springbootstarter.domain.TSysPremission;
-import com.cjw.springbootstarter.domain.TSysUser;
+import com.cjw.springbootstarter.domain.sys.TSysPermissionRole;
+import com.cjw.springbootstarter.domain.sys.TSysPremission;
+import com.cjw.springbootstarter.domain.sys.TSysUser;
 import com.cjw.springbootstarter.exception.MyException;
 import com.cjw.springbootstarter.mapper.RoleUserMapper;
 import com.cjw.springbootstarter.mapper.UserMapper;
 import com.cjw.springbootstarter.service.UserService;
 import com.cjw.springbootstarter.util.Log4JUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

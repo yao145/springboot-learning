@@ -12,6 +12,7 @@ package com.cjw.springbootstarter.controller;
 
 import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.JsonResultData;
+import com.cjw.springbootstarter.util.Log4JUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -20,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,14 +32,31 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/test")
 public class TestController {
     /**
-     * 用户查询
+     * 用户查询，该接口用于测试接口权限控制
      */
-    @RequestMapping("/userList")
+    @RequestMapping("/shiro")
     @RequiresPermissions("system:user:view")
     public JsonResultData userInfo() {
+        return JsonResultData.buildSuccess("成功");
+    }
+
+
+    /**
+     * 分布式session测试
+     */
+
+    @RequestMapping("/getval")
+    public JsonResultData getSession(HttpServletRequest request) {
+        Log4JUtils.getLogger().info("尝试获取session中的数据");
+        String result = request.getSession().getAttribute("val").toString();
+        return JsonResultData.buildSuccess("【" + result + "】");
+    }
+    @RequestMapping("/setval")
+    public JsonResultData setSession(HttpServletRequest request) {
+        request.getSession().setAttribute("val", "hello world");
         return JsonResultData.buildSuccess("成功");
     }
 

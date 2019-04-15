@@ -27,7 +27,9 @@
 9、添加redis支持   基本操作使用jedis    -ok
    添加分布式锁  使用redisson方式    两种redis客户端互补
    测试：http://localhost:8080/user/redisson  jmeter进行测试
+   
+10、实现分布式session机制,只需添加spring-session-data-redis依赖    -ok
       
-10、结合redis，添加10分钟内5次登录操作的限制
+11、结合redis，添加10分钟内5次登录操作的限制
 
-11、添加图片验证码的支持，参考：https://blog.csdn.net/larger5/article/details/79522105
+12、添加图片验证码的支持，参考：https://blog.csdn.net/larger5/article/details/79522105

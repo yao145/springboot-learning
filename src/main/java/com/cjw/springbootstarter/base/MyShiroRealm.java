@@ -10,9 +10,9 @@
  */
 package com.cjw.springbootstarter.base;
 
-import com.cjw.springbootstarter.domain.TSysPremission;
-import com.cjw.springbootstarter.domain.TSysUser;
-import com.cjw.springbootstarter.service.UserService;
+import com.cjw.springbootstarter.domain.sys.TSysPremission;
+import com.cjw.springbootstarter.domain.sys.TSysUser;
+import com.cjw.springbootstarter.service.impl.UserServiceImpl;
 import com.cjw.springbootstarter.util.JwtToken;
 import com.cjw.springbootstarter.util.Log4JUtils;
 import com.cjw.springbootstarter.util.MD5Utils;
@@ -39,7 +39,7 @@ import java.util.List;
 public class MyShiroRealm extends AuthorizingRealm {
 
     @Resource
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * 必须重写此方法，不然Shiro会报错

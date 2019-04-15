@@ -12,6 +12,7 @@ package com.cjw.springbootstarter.config;
 
 import com.cjw.springbootstarter.base.ApplicationConstant;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -56,6 +57,9 @@ public class Swagger2Config implements WebMvcConfigurer {
                 description(ApplicationConstant.PROJECT_DES).version(ApplicationConstant.PROJECT_VERSION).build();
     }
 
+    @Value("${fileupload.folder.path}")
+    private String FileUploadFolderPath;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
@@ -64,5 +68,8 @@ public class Swagger2Config implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        registry.addResourceHandler("plot/uploadfiles/**")
+                .addResourceLocations("file:" + FileUploadFolderPath + "plot/");
     }
 }

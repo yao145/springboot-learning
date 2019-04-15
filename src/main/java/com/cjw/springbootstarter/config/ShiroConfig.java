@@ -52,7 +52,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filters);
         //拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        // 配置不会被拦截的链接 顺序判断，因为前端模板采用了thymeleaf，
+        // 配置不会被拦截的链接 顺序判断，因为前端模板采用了vue，
         // 这里不能直接使用 ("/static/**", "anon")来配置匿名访问，必须配置到每个静态目录
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
@@ -60,7 +60,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/html/**", "anon");
         //用于测试分布式锁是否有效
-        filterChainDefinitionMap.put("/user/redisson", "anon");
+        filterChainDefinitionMap.put("/test/redisson", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;

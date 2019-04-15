@@ -11,7 +11,7 @@
 package com.cjw.springbootstarter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cjw.springbootstarter.domain.TSysUser;
+import com.cjw.springbootstarter.domain.sys.TSysUser;
 
 /**
  * 〈用户信息查询〉

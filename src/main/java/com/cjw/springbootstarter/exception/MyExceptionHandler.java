@@ -24,10 +24,12 @@ public class MyExceptionHandler {
             return JsonResultData.buildError(xdException.getMsg(), xdException.getCode());
         } else if (e instanceof UnauthenticatedException) {
             return JsonResultData.buildError("用户未授权", -1);
-        }else if(e instanceof UnauthorizedException){
+        } else if (e instanceof UnauthorizedException) {
             return JsonResultData.buildError("用户缺少服务调用权限", -1);
-        }
-        else {
+        } else if (e instanceof IllegalStateException) {
+            return JsonResultData.buildError("服务请求参数不全", -1);
+        } else {
+            e.printStackTrace();
             return JsonResultData.buildError("全局异常，未知错误");
         }
     }

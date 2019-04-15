@@ -11,9 +11,7 @@
 package com.cjw.springbootstarter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cjw.springbootstarter.domain.TSysPremission;
-
-import java.util.List;
+import com.cjw.springbootstarter.domain.sys.TSysPremission;
 
 /**
  * 〈用户权限操作表〉

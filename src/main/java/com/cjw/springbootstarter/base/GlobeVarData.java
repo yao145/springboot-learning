@@ -10,9 +10,9 @@
  */
 package com.cjw.springbootstarter.base;
 
-import com.cjw.springbootstarter.domain.TSysPermissionRole;
-import com.cjw.springbootstarter.domain.TSysPremission;
-import com.cjw.springbootstarter.domain.TSysRole;
+import com.cjw.springbootstarter.domain.sys.TSysPermissionRole;
+import com.cjw.springbootstarter.domain.sys.TSysPremission;
+import com.cjw.springbootstarter.domain.sys.TSysRole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,4 +38,9 @@ public class GlobeVarData {
      * 角色列表
      */
     public static List<TSysRole> roleList = new ArrayList<>();
+
+    /**
+     * 文件上传下载存储位置
+     */
+    public static String FileUploadFolderPath="";
 }

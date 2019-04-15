@@ -11,8 +11,7 @@
 package com.cjw.springbootstarter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cjw.springbootstarter.domain.TSysRole;
-import com.cjw.springbootstarter.domain.TSysRoleUser;
+import com.cjw.springbootstarter.domain.sys.TSysRoleUser;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

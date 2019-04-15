@@ -18,9 +18,13 @@ import com.cjw.springbootstarter.util.Log4JUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 /**
  * 〈系统启动后运行〉
@@ -30,6 +34,7 @@ import org.springframework.stereotype.Component;
  * @since 1.0.0
  */
 @Component
+@Configuration
 public class ApplicationReady implements ApplicationListener<ApplicationReadyEvent> {
 
     @Override
@@ -47,6 +52,9 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
     @Autowired
     private RoleMapper roleMapper;
 
+    @Value("${fileupload.folder.path}")
+    private String FileUploadFolderPath;
+
     /**
      * 将数据库中的部分数据同步到全局变量
      */
@@ -54,5 +62,12 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
         GlobeVarData.premissionRoleList = permissionRoleMapper.selectList(null);
         GlobeVarData.premissionList = premissionMapper.selectList(null);
         GlobeVarData.roleList = roleMapper.selectList(null);
+
+        //设置文件上传下载存放路径
+        GlobeVarData.FileUploadFolderPath = FileUploadFolderPath;
+        File directory =new File(FileUploadFolderPath);
+        if(directory.exists()==false){
+            directory.mkdir();
+        }
     }
 }

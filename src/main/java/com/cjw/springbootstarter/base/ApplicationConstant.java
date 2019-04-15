@@ -12,7 +12,6 @@ package com.cjw.springbootstarter.base;
 
 
 /**
- * 〈一句话功能简述〉<br>
  * 〈项目常量类〉
  *
  * @author yao
@@ -40,4 +39,19 @@ public class ApplicationConstant {
     //分布式锁时，key的最长时间
     public static final int REDIS_LOCK_KEY_EXPIRE_TIME = 60;
 
+    //服务调用相关信息
+    public static final String HTTP_RETURN_ERROR ="服务调用失败";
+    public static final String HTTP_FILEUPLOAD_ERROR="文件上传失败";
+    //服务调用时，分页参数，默认页码
+    public static final long HTTP_PARAM_PAGENUM=1L;
+    //服务调用时，分页参数，每页默认数量
+    public static final long HTTP_PARAM_PAGESIZE=15L;
+
+    //数据库操作后的相关提示文本
+    public static final String DB_INSERT_ERROR="数据库插入失败";
+    public static final String DB_INSERT_SUCCESS="数据库插入成功";
+    public static final String DB_DELETE_ERROR="数据内容删除失败";
+    public static final String DB_DELETE_SUCCESS="数据内容删除成功";
+    public static final String DB_UPDATE_ERROR="数据内容更新失败";
+    public static final String DB_UPDATE_SUCCESS="数据内容更新成功";
 }

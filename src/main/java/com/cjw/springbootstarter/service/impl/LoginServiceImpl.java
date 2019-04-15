@@ -10,17 +10,14 @@
  */
 package com.cjw.springbootstarter.service.impl;
 
-import com.cjw.springbootstarter.base.JsonResultData;
 import com.cjw.springbootstarter.base.PublicResultConstant;
-import com.cjw.springbootstarter.domain.TSysLoginResult;
+import com.cjw.springbootstarter.domain.sys.TSysLoginResult;
 import com.cjw.springbootstarter.service.LoginService;
 import com.cjw.springbootstarter.util.JwtToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 

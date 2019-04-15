@@ -1,4 +1,4 @@
-package com.cjw.springbootstarter.domain;
+package com.cjw.springbootstarter.domain.sys;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
