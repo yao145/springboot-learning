@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cjw.springbootstarter.base.TPageResult;
 import com.cjw.springbootstarter.domain.esmodel.TFeatureInfo;
-import com.cjw.springbootstarter.mapper.FeatureInfoMapper;
+import com.cjw.springbootstarter.mapper.esmodel.FeatureInfoMapper;
 import com.cjw.springbootstarter.service.FeatureInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

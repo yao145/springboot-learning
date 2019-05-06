@@ -10,11 +10,9 @@
  */
 package com.cjw.springbootstarter.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cjw.springbootstarter.domain.layertree.*;
-import com.cjw.springbootstarter.mapper.LayerTreeMenuMapper;
-import com.cjw.springbootstarter.mapper.LayerTreeServiceMapper;
+import com.cjw.springbootstarter.mapper.layertree.LayerTreeMenuMapper;
+import com.cjw.springbootstarter.mapper.layertree.LayerTreeServiceMapper;
 import com.cjw.springbootstarter.service.LayerTreeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +60,7 @@ public class LayerTreeServiceImpl implements LayerTreeService {
             }
             menuItem.setConfig(config);
             menuItem.setId(menuEntity.getId());
-            menuItem.setLayer_name(menuEntity.getLayer_name());
+            menuItem.setLayer_name(menuEntity.getLayerName());
 
             menuResult.add(menuItem);
         }
@@ -74,10 +72,9 @@ public class LayerTreeServiceImpl implements LayerTreeService {
             serviceItem.setParent(serviceEntity.getParent());
             String folder = serviceEntity.getServerFolder();
             if (folder == null || "".equals(folder)) {
-                serviceItem.setUrl("${gsMapUrl}/arcgis/rest/services/" + serviceEntity.getServerName() + "/MapServer");
-            }
-            else {
-                serviceItem.setUrl("${gsMapUrl}/arcgis/rest/services/" + folder + "/" + serviceEntity.getServerName()
+                serviceItem.setUrl("${gsMapUrl}/ags/rest/services/" + serviceEntity.getServerName() + "/MapServer");
+            } else {
+                serviceItem.setUrl("${gsMapUrl}/ags/rest/services/" + folder + "/" + serviceEntity.getServerName()
                         + "/MapServer");
             }
             if (serviceEntity.getRealName() == null || "".equals(serviceEntity.getRealName())) {
@@ -102,7 +99,7 @@ public class LayerTreeServiceImpl implements LayerTreeService {
             Config config = new Config();
             if (serviceEntity.getIcon() == null || "".equals(serviceEntity.getIcon())) {
                 // 如果为空则使用id
-                config.setIcon(serviceEntity.getId()+"");
+                config.setIcon(serviceEntity.getId() + "");
             } else {
                 config.setIcon(serviceEntity.getIcon());
             }
@@ -111,30 +108,28 @@ public class LayerTreeServiceImpl implements LayerTreeService {
                 config.setRelation(relation.split(","));
             }
             serviceItem.setConfig(config);
-            LayerConfigs layerConfig = new LayerConfigs();
+            if (serviceEntity.getServerType() != null && "wmts".equals(serviceEntity.getServerType())) {
+                LayerConfigs layerConfig = new LayerConfigs();
+                if (folder == null || "".equals(folder)) {
+                    layerConfig.setLayer(serviceEntity.getServerName());
+                } else {
+                    layerConfig.setLayer(serviceEntity.getServerFolder() + "_" + serviceEntity.getServerName());
+                }
 
-            if (folder == null || "".equals(folder)) {
-                layerConfig.setLayer(serviceEntity.getServerName());
+                if (folder == null || "".equals(folder)) {
+                    layerConfig.setUrl("${gsMapUrl}/ags/rest/services/" + serviceEntity.getServerName() + "/MapServer/WMTS");
+                } else {
+                    layerConfig.setUrl("${gsMapUrl}/ags/rest/services/" + folder + "/" + serviceEntity.getServerName()
+                            + "/MapServer/WMTS");
+                }
+                serviceItem.setLayerConfigs(layerConfig);
             }
-            else {
-                layerConfig.setLayer(serviceEntity.getServerFolder() + "_" + serviceEntity.getServerName());
-            }
-
-            if (folder == null || "".equals(folder)) {
-                layerConfig.setUrl("${gsMapUrl}/arcgis/rest/services/" + serviceEntity.getServerName() + "/MapServer/WMTS");
-            }
-            else {
-                layerConfig.setUrl("${gsMapUrl}/arcgis/rest/services/" + folder + "/" + serviceEntity.getServerName()
-                        + "/MapServer/WMTS");
-            }
-
-            serviceItem.setLayerConfigs(layerConfig);
 
             String server_zj_name = serviceEntity.getServerZjName();
             if (server_zj_name != null && "".equals(server_zj_name) == false) {
                 LayerConfigs zjLayerConfig = new LayerConfigs();
                 zjLayerConfig.setLayer(server_zj_name);
-                zjLayerConfig.setUrl("${hgMapUrl}/arcgis/rest/services/" + serviceEntity.getServerFolder() + "/"
+                zjLayerConfig.setUrl("${hgMapUrl}/ags/rest/services/" + serviceEntity.getServerFolder() + "/"
                         + server_zj_name + "/MapServer/WMTS");
                 serviceItem.setZjLayerConfig(zjLayerConfig);
             }

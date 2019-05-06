@@ -10,6 +10,7 @@
  */
 package com.cjw.springbootstarter.base;
 
+import com.cjw.springbootstarter.domain.sys.TSysAttMapping;
 import com.cjw.springbootstarter.domain.sys.TSysPermissionRole;
 import com.cjw.springbootstarter.domain.sys.TSysPremission;
 import com.cjw.springbootstarter.domain.sys.TSysRole;
@@ -38,6 +39,11 @@ public class GlobeVarData {
      * 角色列表
      */
     public static List<TSysRole> roleList = new ArrayList<>();
+
+    /**
+     * 业务表中的属性名描述表
+     */
+    public static List<TSysAttMapping> attMappingList = new ArrayList<>();
 
     /**
      * 文件上传下载存储位置

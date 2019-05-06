@@ -11,12 +11,13 @@
 package com.cjw.springbootstarter.base;
 
 
-import com.cjw.springbootstarter.mapper.PermissionRoleMapper;
-import com.cjw.springbootstarter.mapper.PremissionMapper;
-import com.cjw.springbootstarter.mapper.RoleMapper;
+import com.cjw.springbootstarter.domain.sys.TSysAttMapping;
+import com.cjw.springbootstarter.mapper.sys.AttMappingMapper;
+import com.cjw.springbootstarter.mapper.sys.PermissionRoleMapper;
+import com.cjw.springbootstarter.mapper.sys.PremissionMapper;
+import com.cjw.springbootstarter.mapper.sys.RoleMapper;
+import com.cjw.springbootstarter.util.DbUtil;
 import com.cjw.springbootstarter.util.Log4JUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -52,6 +53,9 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
     @Autowired
     private RoleMapper roleMapper;
 
+    @Autowired
+    private AttMappingMapper attMappingMapper;
+
     @Value("${fileupload.folder.path}")
     private String FileUploadFolderPath;
 
@@ -63,10 +67,18 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
         GlobeVarData.premissionList = premissionMapper.selectList(null);
         GlobeVarData.roleList = roleMapper.selectList(null);
 
+        //业务表中的属性名描述表
+        GlobeVarData.attMappingList = attMappingMapper.selectList(null);
+        //进行字段下划线转驼峰处理
+        for (TSysAttMapping attMapping : GlobeVarData.attMappingList) {
+            String attName = attMapping.getAttName();
+            attMapping.setAttName(DbUtil.underlineToCamel(attName));
+        }
+
         //设置文件上传下载存放路径
         GlobeVarData.FileUploadFolderPath = FileUploadFolderPath;
-        File directory =new File(FileUploadFolderPath);
-        if(directory.exists()==false){
+        File directory = new File(FileUploadFolderPath);
+        if (directory.exists() == false) {
             directory.mkdir();
         }
     }

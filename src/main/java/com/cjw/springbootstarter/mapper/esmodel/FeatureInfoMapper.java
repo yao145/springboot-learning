@@ -8,11 +8,10 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.cjw.springbootstarter.mapper;
+package com.cjw.springbootstarter.mapper.esmodel;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cjw.springbootstarter.domain.esmodel.TFeatureInfo;
-import com.cjw.springbootstarter.domain.plot.TPlotFile;
 
 /**
  *
@@ -20,6 +19,6 @@ import com.cjw.springbootstarter.domain.plot.TPlotFile;
  * @create 2019/3/19
  * @since 1.0.0
  */
-public interface PlotFileMapper extends BaseMapper<TPlotFile> {
+public interface FeatureInfoMapper extends BaseMapper<TFeatureInfo> {
 
 }

@@ -41,13 +41,13 @@ public class JsonResultData implements Serializable {
     }
 
     // 失败，传入描述信息
-    public static JsonResultData buildError(String msg) {
-        return new JsonResultData(-1, msg, "error");
+    public static JsonResultData buildError(Object data) {
+        return new JsonResultData(-1, data, "error");
     }
 
     // 失败，传入描述信息,状态码
-    public static JsonResultData buildError(String msg, Integer code) {
-        return new JsonResultData(code, msg, "error");
+    public static JsonResultData buildError(Object data, Integer code) {
+        return new JsonResultData(code, data, "error");
     }
 
     // 成功，传入数据,及描述信息

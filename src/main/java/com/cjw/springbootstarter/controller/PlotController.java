@@ -158,7 +158,7 @@ public class PlotController {
     @ApiResponses({@ApiResponse(code = 400, message = "参数错误"), @ApiResponse(code = 401, message = "未授权"),
             @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
     @RequestMapping(value = "/addfile", method = {RequestMethod.POST}, headers = "content-type=multipart/form-data")
-    public JsonResultData addPlotFiles(@RequestParam("iconid") Long iconid, @RequestParam("type") String type
+    public JsonResultData addPlotFiles(@RequestParam("iconid") Long iconid, @RequestParam(value = "type",required = false) String type
             , @RequestParam(value = "uploadfile", required = true) MultipartFile uploadfile) {
         if (iconid == null) {
             return JsonResultData.buildError("iconid不能为空");

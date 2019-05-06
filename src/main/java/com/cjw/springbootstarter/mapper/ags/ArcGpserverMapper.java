@@ -8,10 +8,10 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.cjw.springbootstarter.mapper;
+package com.cjw.springbootstarter.mapper.ags;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cjw.springbootstarter.domain.esmodel.TFeatureInfo;
+import com.cjw.springbootstarter.domain.ags.TArcGpserver;
 
 /**
  *
@@ -19,6 +19,6 @@ import com.cjw.springbootstarter.domain.esmodel.TFeatureInfo;
  * @create 2019/3/19
  * @since 1.0.0
  */
-public interface FeatureInfoMapper extends BaseMapper<TFeatureInfo> {
+public interface ArcGpserverMapper extends BaseMapper<TArcGpserver> {
 
 }

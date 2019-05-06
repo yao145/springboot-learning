@@ -74,10 +74,9 @@
 
     <!--用于统计数据-->
     <logger name="dataLogger">
-        <level value="INFO" />
-        <appender-ref ref="dataApp" />
+        <level value="INFO"/>
+        <appender-ref ref="dataApp"/>
     </logger>
-
 
     <root level="INFO">
         <appender-ref ref="consoleApp"/>

@@ -8,19 +8,19 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.cjw.springbootstarter.mapper;
+package com.cjw.springbootstarter.mapper.layertree;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cjw.springbootstarter.domain.layertree.TLayerTreeMenu;
+import com.cjw.springbootstarter.domain.layertree.TLayerTreeService;
 
 /**
- * 〈图层树menu结构，数据递归结构〉<br>
+ * 〈图层树中的叶子节点信息，一个节点一个地图服务〉<br>
  * 〈〉
  *
  * @author yao
  * @create 2019/3/19
  * @since 1.0.0
  */
-public interface LayerTreeMenuMapper extends BaseMapper<TLayerTreeMenu> {
+public interface LayerTreeServiceMapper extends BaseMapper<TLayerTreeService> {
 
 }

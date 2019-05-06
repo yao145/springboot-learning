@@ -71,5 +71,8 @@ public class Swagger2Config implements WebMvcConfigurer {
 
         registry.addResourceHandler("plot/uploadfiles/**")
                 .addResourceLocations("file:" + FileUploadFolderPath + "plot/");
+
+        registry.addResourceHandler("project/**")
+                .addResourceLocations("file:" + FileUploadFolderPath + "project/");
     }
 }

@@ -10,6 +10,7 @@
  */
 package com.cjw.springbootstarter.base;
 
+import com.cjw.springbootstarter.domain.sys.TSysAttMapping;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -49,6 +50,11 @@ public class TPageResult<T> implements Serializable {
         this.total = total;
         this.result = result;
     }
+
+    /**
+     * 查询结果字段映射表
+     */
+    private List<TSysAttMapping> attMappingList;
 
     public TPageResult() {
     }

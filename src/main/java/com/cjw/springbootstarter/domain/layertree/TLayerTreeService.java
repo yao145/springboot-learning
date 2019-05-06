@@ -19,4 +19,5 @@ public class TLayerTreeService {
 	private String icon;
 	private String relation;
 	private String geometryType;
+	private String serverType;
 }

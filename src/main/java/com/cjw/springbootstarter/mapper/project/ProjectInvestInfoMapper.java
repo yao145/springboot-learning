@@ -8,17 +8,18 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.cjw.springbootstarter.mapper;
+package com.cjw.springbootstarter.mapper.project;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cjw.springbootstarter.domain.sys.TSysPermissionRole;
+import com.cjw.springbootstarter.domain.project.TProjectInvestInfo;
 
 /**
- * 〈权限-角色对应表〉
+ * 〈高产农田项目信息-投资信息〉
  *
  * @author yao
  * @create 2019/1/22
  * @since 1.0.0
  */
-public interface PermissionRoleMapper extends BaseMapper<TSysPermissionRole> {
+public interface ProjectInvestInfoMapper extends BaseMapper<TProjectInvestInfo> {
+
 }
