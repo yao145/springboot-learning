@@ -25,7 +25,7 @@
    比如说getter/setter/toString等方法的编写
 
 9、添加redis支持   基本操作使用jedis    -ok
-   添加分布式锁  使用redisson方式    两种redis客户端互补
+   添加分布式锁  使用redisson方式    两种redis客户端互补  问题：打包成war报错
    测试：http://localhost:8080/user/redisson  jmeter进行测试
    
 10、实现分布式session机制,只需添加spring-session-data-redis依赖    -ok

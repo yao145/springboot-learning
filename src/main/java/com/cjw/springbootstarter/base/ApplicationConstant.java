@@ -11,6 +11,8 @@
 package com.cjw.springbootstarter.base;
 
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 〈项目常量类〉
  *
@@ -59,4 +61,5 @@ public class ApplicationConstant {
     public static final String AGS_GP_STATUS_KEY = "ags_gpstatus_%s_%s";
     public static final String AGS_GP_RESULT_FOR_STATICS_KEY = "ags_gpresult_statics_%s_%s";
     public static final int AGS_GP_KEEP_RESULT_TOTAL_TIME = 3;
+    public static final TimeUnit AGS_GP_KEEP_RESULT_TOTAL_TIMEUNIT = TimeUnit.HOURS;
 }

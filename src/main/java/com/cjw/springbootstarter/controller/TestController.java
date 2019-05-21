@@ -66,39 +66,39 @@ public class TestController {
      */
     @Autowired
     private RedisTemplate redisTemplate;
-    @Autowired
-    private RedissonClient redisson;
+//    @Autowired
+//    private RedissonClient redisson;
 
     @RequestMapping("redisson")
     public Object testConcurrent1() {
-
-        //1、单服务器部署使用简单的同步锁
-        // synchronized (TestController.class)
-
-        //2、多服务器部署时，尝试使用redis分布式锁:Redisson方式
-        String key = ApplicationConstant.REDIS_LOCK_KEY;
-
-        //获取锁
-        RLock rLock = null;
-        try {
-            rLock = redisson.getLock(key);
-            rLock.lock(ApplicationConstant.REDIS_LOCK_KEY_EXPIRE_TIME, TimeUnit.SECONDS);
-
-            //业务逻辑,redis中存一个数，作为计数器
-            Object allCount = redisTemplate.opsForValue().get("allCount");
-            if (allCount == null) {
-                redisTemplate.opsForValue().set("allCount", 1);
-            } else {
-                redisTemplate.opsForValue().set("allCount", (int) allCount + 1);
-            }
-            System.out.println("allCount-->>> " + redisTemplate.opsForValue().get("allCount"));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            if (rLock.isExists()) {
-                rLock.unlock();
-            }
-        }
+//
+//        //1、单服务器部署使用简单的同步锁
+//        // synchronized (TestController.class)
+//
+//        //2、多服务器部署时，尝试使用redis分布式锁:Redisson方式
+//        String key = ApplicationConstant.REDIS_LOCK_KEY;
+//
+//        //获取锁
+//        RLock rLock = null;
+//        try {
+//            rLock = redisson.getLock(key);
+//            rLock.lock(ApplicationConstant.REDIS_LOCK_KEY_EXPIRE_TIME, TimeUnit.SECONDS);
+//
+//            //业务逻辑,redis中存一个数，作为计数器
+//            Object allCount = redisTemplate.opsForValue().get("allCount");
+//            if (allCount == null) {
+//                redisTemplate.opsForValue().set("allCount", 1);
+//            } else {
+//                redisTemplate.opsForValue().set("allCount", (int) allCount + 1);
+//            }
+//            System.out.println("allCount-->>> " + redisTemplate.opsForValue().get("allCount"));
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            if (rLock.isExists()) {
+//                rLock.unlock();
+//            }
+//        }
         return "执行完成";
     }
 }

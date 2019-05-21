@@ -11,7 +11,6 @@
 package com.cjw.springbootstarter.util;
 
 import com.cjw.springbootstarter.base.ApplicationConstant;
-import com.sun.xml.internal.ws.api.WSService;
 
 import java.util.HashMap;
 import java.util.Iterator;

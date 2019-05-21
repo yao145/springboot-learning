@@ -14,11 +14,11 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.JsonResultData;
-import com.cjw.springbootstarter.domain.ags.JobStatus;
-import com.cjw.springbootstarter.domain.ags.TArcGpserver;
+import com.cjw.springbootstarter.domain.ags.*;
 import com.cjw.springbootstarter.mapper.ags.ArcGpserverMapper;
 import com.cjw.springbootstarter.service.ArcGpService;
 import com.cjw.springbootstarter.util.Log4JUtils;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -27,6 +27,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -73,7 +75,7 @@ public class ArcGpServiceImpl implements ArcGpService {
             //将任务id相关信息写入到redis，供状态查询操作
             String key = String.format(ApplicationConstant.AGS_GP_STATUS_KEY, gpserver.getName(), jobId);
             redisTemplate.opsForValue().set(key, jobStatus.substring(4),
-                    ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIME, TimeUnit.HOURS);
+                    ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIME, ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIMEUNIT);
             return JsonResultData.buildSuccess(jobId);
         }
     }
@@ -98,7 +100,8 @@ public class ArcGpServiceImpl implements ArcGpService {
                 resultData = httpAPIService.doGet(gpserver.getJobStatusUrl(jobId), params);
                 JsonObject jsonObject = (JsonObject) resultData.getData();
                 jobStatus = jsonObject.get("jobStatus").getAsString().substring(4);
-                redisTemplate.opsForValue().set(key, jobStatus);
+                redisTemplate.opsForValue().set(key, jobStatus
+                        , ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIME, ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIMEUNIT);
             }
             return JsonResultData.buildSuccess(jobStatus);
         }
@@ -136,36 +139,41 @@ public class ArcGpServiceImpl implements ArcGpService {
                 redisTemplate.opsForValue().set(key, "");
                 return JsonResultData.buildError("分析结果为空");
             }
-            JsonObject resultJson = new JsonObject();
-            //构建features数组
-            JsonArray features = new JsonArray();
+            FeatureArray features = new FeatureArray();
+            //1  构建features数组
             try {
                 for (int iii = 0; iii < featuresAgs.size(); iii++) {
-                    JsonObject feature = (JsonObject) featuresAgs.get(iii);
-                    JsonObject attributes = (JsonObject) feature.get("attributes");
-                    features.add(attributes);
+                    JsonObject featureJson = (JsonObject) featuresAgs.get(iii);
+                    JsonObject attributesJson = (JsonObject) featureJson.get("attributes");
+                    //构建一个要素
+                    FeatureItem feature = new FeatureItem();
+                    Set<Map.Entry<String, JsonElement>> entrySet = attributesJson.entrySet();
+                    for (Map.Entry<String, JsonElement> entry : entrySet) {
+                        feature.addFiledItem(new FieldItem(entry.getKey(), entry.getValue().getAsString()));
+                    }
+                    features.addFeature(feature);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
                 Log4JUtils.getLogger().error("结果解析成json失败");
                 return JsonResultData.buildError("结果解析成json失败");
             }
-            resultJson.add("features", features);
-            //构建属性名-描述的JsonObject
+            //2  构建属性名-描述的JsonObject
             JsonObject fieldDetail = new JsonObject();
             String[] fieldArr = statisticsFields.split(",");
             String[] fieldDetailArr = statisticsFieldsSetail.split(",");
             for (int i = 0; i < fieldArr.length; i++) {
-                fieldDetail.addProperty(fieldArr[i], fieldDetailArr[i]);
+                features.addAttMapping(new FieldItem(fieldArr[i], fieldDetailArr[i]));
             }
-            fieldDetail.addProperty("AREA", "面积");
-            resultJson.add("attMapping", fieldDetail);
-            String jsonStr = resultJson.toString();
-            redisTemplate.opsForValue().set(key, jsonStr);
-            return JsonResultData.buildSuccess(jsonStr);
+            features.addAttMapping(new FieldItem("AREA", "面积"));
+            //3  将对象存储到redis
+            redisTemplate.opsForValue().set(key, new Gson().toJson(features)
+                    , ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIME, ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIMEUNIT);
+            return JsonResultData.buildSuccess(features);
         } else {
             Log4JUtils.getLogger().info("从redis获取分析结果");
-            return JsonResultData.buildSuccess(jobResult.toString());
+            FeatureArray featureArray = new Gson().fromJson(jobResult.toString(), FeatureArray.class);
+            return JsonResultData.buildSuccess(featureArray);
         }
     }
 

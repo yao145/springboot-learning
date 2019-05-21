@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * redisson的配置，用于分布式锁的实现
  */
-@Configuration
+//@Configuration
 public class RedissonConfig {
 
 
