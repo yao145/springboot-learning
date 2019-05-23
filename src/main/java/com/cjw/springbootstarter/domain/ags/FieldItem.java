@@ -25,11 +25,11 @@ import java.io.Serializable;
 public class FieldItem implements Serializable {
 
     private String name;
-    private String data;
+    private String value;
 
-    public FieldItem(String name, String data) {
+    public FieldItem(String name, String value) {
         this.name = name;
-        this.data = data;
+        this.value = value;
     }
 
     public FieldItem() {

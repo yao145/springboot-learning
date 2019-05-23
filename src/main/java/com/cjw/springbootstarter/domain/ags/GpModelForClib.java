@@ -31,7 +31,7 @@ public class GpModelForClib {
     private String gpid;
     @ApiModelProperty(value = "坐标系wkid,与点集合匹配,一般设置为4490")
     private String wkid;
-    @ApiModelProperty(value = "点集合，格式为：x1,y1;x2,y2...")
+    @ApiModelProperty(value = "点集合，格式为：x1,y1;x2,y2...,如果有多个面，则使用&分开")
     private String points;
 
     /**
@@ -48,7 +48,7 @@ public class GpModelForClib {
             try {
                 Integer.parseInt(this.wkid);
             } catch (Exception ex) {
-                return JsonResultData.buildError("wkid必须为数字");
+                return JsonResultData.buildError("wkid必须为数字,例如4490");
             }
         }
         if (this.points == null || this.points.length() == 0) {
@@ -69,6 +69,9 @@ public class GpModelForClib {
                     if (y < -90 || y > 90) {
                         return JsonResultData.buildError("points存在超出范围的y");
                     }
+                }
+                if (xyList.length < 3) {
+                    return JsonResultData.buildError("传入坐标点无法构建面");
                 }
             } catch (Exception ex) {
                 return JsonResultData.buildError("points格式错误");
@@ -109,20 +112,23 @@ public class GpModelForClib {
         JsonObject geometry = new JsonObject();
 
         JsonArray rings = new JsonArray();
-        JsonArray ring = new JsonArray();
 
         //解析点集合
-        String[] xyList = this.points.split(";");
-        for (String xyStr : xyList) {
-            String[] xyxy = xyStr.split(",");
-            double x = Double.parseDouble(xyxy[0]);
-            double y = Double.parseDouble(xyxy[1]);
-            JsonArray xyJson = new JsonArray();
-            xyJson.add(x);
-            xyJson.add(y);
-            ring.add(xyJson);
+        String[] ringsStr = this.points.split("&");
+        for (String ringStr : ringsStr) {
+            JsonArray ring = new JsonArray();
+            String[] xyList = ringStr.split(";");
+            for (String xyStr : xyList) {
+                String[] xyxy = xyStr.split(",");
+                double x = Double.parseDouble(xyxy[0]);
+                double y = Double.parseDouble(xyxy[1]);
+                JsonArray xyJson = new JsonArray();
+                xyJson.add(x);
+                xyJson.add(y);
+                ring.add(xyJson);
+            }
+            rings.add(ring);
         }
-        rings.add(ring);
 
         geometry.add("rings", rings);
         feature.add("geometry", geometry);

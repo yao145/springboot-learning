@@ -35,5 +35,10 @@ public interface ArcGpService {
     /**
      * 获取gp结果，进行结果内容统计
      */
-    JsonResultData resultForStatistics(int gpId,String jobId);
+    JsonResultData resultForStatistics(int gpId, String jobId);
+
+    /**
+     * 返回查询结果，以要素方式展示
+     */
+    JsonResultData resultForQueryFeatures(int gpId, String jobId);
 }

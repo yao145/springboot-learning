@@ -40,7 +40,7 @@ public class ArcGpserverController {
     @ApiResponses({@ApiResponse(code = 400, message = "参数错误"), @ApiResponse(code = 401, message = "未授权"),
             @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
     @RequestMapping(value = "/submit/clip", method = {RequestMethod.POST}, consumes = "application/json")
-    public JsonResultData addNewPlot(@RequestBody GpModelForClib gpModelForClib) {
+    public JsonResultData submitJob(@RequestBody GpModelForClib gpModelForClib) {
         JsonResultData result = gpModelForClib.checkParams();
         if (result != null) {
             return result;
@@ -81,6 +81,22 @@ public class ArcGpserverController {
             return result;
         }
         result = arcGpService.resultForStatistics(Integer.parseInt(gpid), jobid);
+        return result;
+    }
+
+    @ApiOperation(value = "获取运行结果的要素集合信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "gpid", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "query", name = "jobid", dataType = "String", required = true)})
+    @ApiResponses({@ApiResponse(code = 400, message = "参数错误"), @ApiResponse(code = 401, message = "未授权"),
+            @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
+    @RequestMapping(value = "/result/query", method = {RequestMethod.GET})
+    public JsonResultData getResultForQuery(@RequestParam("gpid") String gpid, @RequestParam("jobid") String jobid) {
+        JsonResultData result = checkParams(gpid, jobid);
+        if (result != null) {
+            return result;
+        }
+        result = arcGpService.resultForQueryFeatures(Integer.parseInt(gpid), jobid);
         return result;
     }
 

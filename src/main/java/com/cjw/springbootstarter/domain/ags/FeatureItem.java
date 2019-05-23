@@ -10,9 +10,12 @@
  */
 package com.cjw.springbootstarter.domain.ags;
 
+import com.cjw.springbootstarter.domain.ags.geo.IGeometry;
+import com.google.gson.InstanceCreator;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +27,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Data
-public class FeatureItem implements Serializable {
+public class FeatureItem implements Serializable{
 
     /**
      * 属性集合
@@ -42,4 +45,8 @@ public class FeatureItem implements Serializable {
         return this;
     }
 
+    /**
+     * 空间对象
+     */
+    private IGeometry geometry;
 }
