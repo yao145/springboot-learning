@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.net.SocketTimeoutException;
+
 /**
  * 异常处理控制器
  */
@@ -28,6 +30,8 @@ public class MyExceptionHandler {
             return JsonResultData.buildError("用户缺少服务调用权限", -1);
         } else if (e instanceof IllegalStateException) {
             return JsonResultData.buildError("服务请求参数不全", -1);
+        } else if (e instanceof SocketTimeoutException) {
+            return JsonResultData.buildError("ags服务调用超时", -1);
         } else {
             e.printStackTrace();
             return JsonResultData.buildError("全局异常，未知错误");

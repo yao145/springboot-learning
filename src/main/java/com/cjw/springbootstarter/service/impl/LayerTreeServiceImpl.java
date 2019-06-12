@@ -72,9 +72,9 @@ public class LayerTreeServiceImpl implements LayerTreeService {
             serviceItem.setParent(serviceEntity.getParent());
             String folder = serviceEntity.getServerFolder();
             if (folder == null || "".equals(folder)) {
-                serviceItem.setUrl("${gsMapUrl}/ags/rest/services/" + serviceEntity.getServerName() + "/MapServer");
+                serviceItem.setUrl("${gsMapUrl}/arcgis/rest/services/" + serviceEntity.getServerName() + "/MapServer");
             } else {
-                serviceItem.setUrl("${gsMapUrl}/ags/rest/services/" + folder + "/" + serviceEntity.getServerName()
+                serviceItem.setUrl("${gsMapUrl}/arcgis/rest/services/" + folder + "/" + serviceEntity.getServerName()
                         + "/MapServer");
             }
             if (serviceEntity.getRealName() == null || "".equals(serviceEntity.getRealName())) {
@@ -117,9 +117,9 @@ public class LayerTreeServiceImpl implements LayerTreeService {
                 }
 
                 if (folder == null || "".equals(folder)) {
-                    layerConfig.setUrl("${gsMapUrl}/ags/rest/services/" + serviceEntity.getServerName() + "/MapServer/WMTS");
+                    layerConfig.setUrl("${gsMapUrl}/arcgis/rest/services/" + serviceEntity.getServerName() + "/MapServer/WMTS");
                 } else {
-                    layerConfig.setUrl("${gsMapUrl}/ags/rest/services/" + folder + "/" + serviceEntity.getServerName()
+                    layerConfig.setUrl("${gsMapUrl}/arcgis/rest/services/" + folder + "/" + serviceEntity.getServerName()
                             + "/MapServer/WMTS");
                 }
                 serviceItem.setLayerConfigs(layerConfig);
@@ -129,7 +129,7 @@ public class LayerTreeServiceImpl implements LayerTreeService {
             if (server_zj_name != null && "".equals(server_zj_name) == false) {
                 LayerConfigs zjLayerConfig = new LayerConfigs();
                 zjLayerConfig.setLayer(server_zj_name);
-                zjLayerConfig.setUrl("${hgMapUrl}/ags/rest/services/" + serviceEntity.getServerFolder() + "/"
+                zjLayerConfig.setUrl("${hgMapUrl}/arcgis/rest/services/" + serviceEntity.getServerFolder() + "/"
                         + server_zj_name + "/MapServer/WMTS");
                 serviceItem.setZjLayerConfig(zjLayerConfig);
             }

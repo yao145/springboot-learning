@@ -13,11 +13,15 @@ package com.cjw.springbootstarter.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cjw.springbootstarter.base.ApplicationConstant;
+import com.cjw.springbootstarter.base.GlobeVarData;
 import com.cjw.springbootstarter.base.JsonResultData;
 import com.cjw.springbootstarter.domain.ags.*;
 import com.cjw.springbootstarter.domain.ags.geo.IGeometry;
 import com.cjw.springbootstarter.domain.ags.geo.Polygon;
 import com.cjw.springbootstarter.domain.ags.geo.RuntimeTypeAdapterFactory;
+import com.cjw.springbootstarter.domain.onemap.TCode;
+import com.cjw.springbootstarter.domain.onemap.TCodeTdgh;
+import com.cjw.springbootstarter.domain.onemap.TCodeTdly;
 import com.cjw.springbootstarter.mapper.ags.ArcGpserverMapper;
 import com.cjw.springbootstarter.service.ArcGpService;
 import com.cjw.springbootstarter.util.Log4JUtils;
@@ -27,7 +31,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 〈ags gp服务调用〉
@@ -102,7 +105,17 @@ public class ArcGpServiceImpl implements ArcGpService {
                 redisTemplate.opsForValue().set(key, jobStatus
                         , ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIME, ApplicationConstant.AGS_GP_KEEP_RESULT_TOTAL_TIMEUNIT);
             }
-            return JsonResultData.buildSuccess(jobStatus);
+            CheckResult checkResult = new CheckResult(jobStatus);
+            if (checkResult.getStatusCode().equals(JobStatus.SUCCESS)) {
+                //需要主动调结果获取服务，并更新当前的状态名称和描述信息
+                JsonResultData featureJson = resultForStatistics(gpId, jobId);
+                if (featureJson.getMsg().equals(JsonResultData.SUCCESS)) {
+                    //获取要素集合成功
+                    Object obj = featureJson.getData();
+                    checkResult.refreshResult(gpserver, (FeatureArray) obj);
+                }
+            }
+            return JsonResultData.buildSuccess(checkResult);
         }
     }
 
@@ -215,6 +228,95 @@ public class ArcGpServiceImpl implements ArcGpService {
         }
     }
 
+    @Override
+    public JsonResultData resultForStatisticsWithLevel(int gpId, String jobId, long level) {
+        JsonResultData resultData;
+        TArcGpserver gpserver = getGpserverById(gpId);
+        if (gpserver == null) {
+            return JsonResultData.buildError("无效的gpid");
+        }
+        String key = String.format(ApplicationConstant.AGS_GP_RESULT_FOR_STATICS_KEY, gpserver.getName(), jobId);
+        Object jobResult = redisTemplate.opsForValue().get(key);
+        if (jobResult == null || jobResult.toString().length() == 0) {
+            return JsonResultData.buildError("未找到统计信息");
+        } else {
+            //根据统计结果进行分类处理
+            HashMap<String, Double> areaList = new HashMap<>();
+            Log4JUtils.getLogger().info("从redis获取分析结果");
+            FeatureArray featureArray = new Gson().fromJson(jobResult.toString(), FeatureArray.class);
+            //遍历每一个要素的属性值内容
+            String fieldNameCode = "";
+            Class clazz = null;
+            if (gpserver.getName().equals("tdgh")) {
+                fieldNameCode = "GHDLDM";
+                clazz = TCodeTdgh.class;
+            } else if (gpserver.getName().equals("dltb")) {
+                fieldNameCode = "DLBM";
+                clazz = TCodeTdly.class;
+            } else {
+                return JsonResultData.buildError("无效的地类类型" + gpserver.getName());
+            }
+            for (FeatureItem featureItem : featureArray.getFeatures()) {
+                String code = featureItem.getValueByName(fieldNameCode).toString();
+                double area = Double.parseDouble(featureItem.getValueByName("AREA").toString());
+                TCode tcode = getParent(code, level, clazz);
+                if (tcode != null) {
+                    String hashKey = tcode.getMyName();
+                    if (areaList.containsKey(hashKey)) {
+                        areaList.put(hashKey, areaList.get(hashKey) + area);
+                    } else {
+                        areaList.put(hashKey, area);
+                    }
+                } else {
+                    Log4JUtils.getLogger().error("地类统计出现严重问题,请检查编码系统是否合理");
+                }
+            }
+            return JsonResultData.buildSuccess(areaList);
+        }
+    }
+
+    /**
+     * 计算获取指定编码的父类，parentLevel为父类级别
+     */
+    private TCode getParent(String code, long parentLevel, Class clazz) {
+        String parentCode = "";
+        List<TCode> codeList = new ArrayList<>();
+        if (clazz == TCodeTdgh.class) {
+            code = (code + "000000").substring(0, 4);
+            //把最后一个非0字符替换成0
+            String tempCode = code.replaceAll("0*$", "");
+            if (tempCode.length() > 1) {
+                tempCode = tempCode.substring(0, tempCode.length() - 1);
+            }
+            parentCode = (tempCode + "000000").substring(0, 4);
+            GlobeVarData.tdghCodeList.stream().forEach(item -> {
+                codeList.add(item);
+            });
+        } else if (clazz == TCodeTdly.class) {
+            if (code.length() > 2) {
+                code = code.substring(0, 2) + "0" + code.substring(2);
+            }
+            parentCode = code.substring(0, 2);
+            GlobeVarData.tdlyCode2007List.stream().forEach(item -> {
+                codeList.add(item);
+            });
+        }
+        for (TCode tdgh : codeList) {
+            if (tdgh.getMyCode().equals(code)) {
+                //找到目标地类
+                if (tdgh.getMyLevel() == parentLevel) {
+                    return tdgh;
+                }
+                //找到的地类级别大于要求，进行升级操作
+                if (tdgh.getMyLevel() > parentLevel) {
+                    return getParent(parentCode, parentLevel, clazz);
+                }
+                return null;
+            }
+        }
+        return null;
+    }
+
     /**
      * 通过gpId找对应记录
      */
@@ -243,7 +345,6 @@ public class ArcGpServiceImpl implements ArcGpService {
 
         String[] fieldArr = fields.split(",");
         String[] fieldDetailArr = fieldsDetail.split(",");
-
         try {
             //1  构建features数组
             for (int iii = 0; iii < featuresAgs.size(); iii++) {

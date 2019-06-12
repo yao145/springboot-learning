@@ -10,22 +10,19 @@
  */
 package com.cjw.springbootstarter.controller;
 
-import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.JsonResultData;
 import com.cjw.springbootstarter.base.TPageResult;
-import com.cjw.springbootstarter.domain.plot.TPlotFile;
-import com.cjw.springbootstarter.domain.plot.TPlotIcon;
 import com.cjw.springbootstarter.domain.project.TProjectFileInfo;
 import com.cjw.springbootstarter.domain.project.TProjectFileTree;
-import com.cjw.springbootstarter.service.PlotService;
 import com.cjw.springbootstarter.service.ProjectService;
 import com.cjw.springbootstarter.util.ControllerUtil;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 

@@ -18,6 +18,9 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * 〈要素信息实体类〉
@@ -27,7 +30,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Data
-public class FeatureItem implements Serializable{
+public class FeatureItem implements Serializable {
 
     /**
      * 属性集合
@@ -38,11 +41,23 @@ public class FeatureItem implements Serializable{
         if ("".equals(fieldItem.getName())) {
             return this;
         }
-        if (attributes.stream().filter(item -> item.getName() == fieldItem.getName()).count() > 0) {
+        if (attributes.stream().filter(item -> item.getName().equals(fieldItem.getName())).count() > 0) {
             return this;
         }
         attributes.add(fieldItem);
         return this;
+    }
+
+    /**
+     * 通过字段名获取值
+     */
+    public Object getValueByName(String fieldName) {
+        List<FieldItem> itemList = attributes.stream().filter(item -> item.getName().equals(fieldName)).collect(Collectors.toList());
+        if (itemList != null && itemList.size() > 0) {
+            return itemList.get(0).getValue();
+        } else {
+            return null;
+        }
     }
 
     /**

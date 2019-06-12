@@ -10,18 +10,25 @@
  */
 package com.cjw.springbootstarter.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.JsonResultData;
+import com.cjw.springbootstarter.service.UserService;
 import com.cjw.springbootstarter.util.Log4JUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -54,6 +61,7 @@ public class TestController {
         String result = request.getSession().getAttribute("val").toString();
         return JsonResultData.buildSuccess("【" + result + "】");
     }
+
     @RequestMapping("/setval")
     public JsonResultData setSession(HttpServletRequest request) {
         request.getSession().setAttribute("val", "hello world");
@@ -100,5 +108,21 @@ public class TestController {
             }
         }
         return "执行完成";
+    }
+
+    @Autowired
+    private UserService userService;
+
+    /**
+     * 这是一个测试多表查询的接口
+     */
+    @RequestMapping("/multitable/{userId}/{pageNum}/{pageSize}")
+    public JsonResultData testMutiTableGetUserList(@PathVariable("userId") long userId
+            , @PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize) {
+
+        Page<Map<String, Object>> pageList = userService.testMutiTableGetUserList(userId, pageNum, pageSize);
+
+        return JsonResultData.buildSuccess(pageList.getRecords());
+
     }
 }

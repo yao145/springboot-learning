@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * 〈一句话功能简述〉<br>
  * 〈MybatisPlus配置类〉
  *
  * @author yao

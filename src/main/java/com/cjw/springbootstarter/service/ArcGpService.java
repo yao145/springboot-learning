@@ -41,4 +41,11 @@ public interface ArcGpService {
      * 返回查询结果，以要素方式展示
      */
     JsonResultData resultForQueryFeatures(int gpId, String jobId);
+
+
+    /**
+     * 获取gp结果，获取的统计信息（土地利用规划 level=2 ；土地利用现状 level=1）
+     */
+    JsonResultData resultForStatisticsWithLevel(int gpId, String jobId, long level);
+
 }

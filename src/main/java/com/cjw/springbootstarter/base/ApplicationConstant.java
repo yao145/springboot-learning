@@ -63,4 +63,5 @@ public class ApplicationConstant {
     public static final String AGS_GP_RESULT_FOR_QUERY_FEATURE_KEY = "ags_gpresult_query_%s_%s";
     public static final int AGS_GP_KEEP_RESULT_TOTAL_TIME = 2;
     public static final TimeUnit AGS_GP_KEEP_RESULT_TOTAL_TIMEUNIT = TimeUnit.HOURS;
+
 }

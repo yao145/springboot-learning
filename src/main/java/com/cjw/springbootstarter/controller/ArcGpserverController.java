@@ -10,7 +10,6 @@
  */
 package com.cjw.springbootstarter.controller;
 
-import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.JsonResultData;
 import com.cjw.springbootstarter.domain.ags.GpModelForClib;
 import com.cjw.springbootstarter.service.ArcGpService;
@@ -18,7 +17,6 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.HashMap;
 
 /**
@@ -60,7 +58,7 @@ public class ArcGpserverController {
             @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
     @RequestMapping(value = "/getjobstatus", method = {RequestMethod.GET})
     public JsonResultData getJobStatus(@RequestParam("gpid") String gpid, @RequestParam("jobid") String jobid) {
-        JsonResultData result = checkParams(gpid, jobid);
+        JsonResultData result = checkParams(gpid, jobid, "1");
         if (result != null) {
             return result;
         }
@@ -76,7 +74,7 @@ public class ArcGpserverController {
             @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
     @RequestMapping(value = "/result/statistics", method = {RequestMethod.GET})
     public JsonResultData getResultForStatistics(@RequestParam("gpid") String gpid, @RequestParam("jobid") String jobid) {
-        JsonResultData result = checkParams(gpid, jobid);
+        JsonResultData result = checkParams(gpid, jobid, "1");
         if (result != null) {
             return result;
         }
@@ -92,7 +90,7 @@ public class ArcGpserverController {
             @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
     @RequestMapping(value = "/result/query", method = {RequestMethod.GET})
     public JsonResultData getResultForQuery(@RequestParam("gpid") String gpid, @RequestParam("jobid") String jobid) {
-        JsonResultData result = checkParams(gpid, jobid);
+        JsonResultData result = checkParams(gpid, jobid, "1");
         if (result != null) {
             return result;
         }
@@ -100,20 +98,46 @@ public class ArcGpserverController {
         return result;
     }
 
+    @ApiOperation(value = "获取运行结果的统计信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "gpid", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "query", name = "jobid", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "query", name = "level", dataType = "String", required = true)})
+    @ApiResponses({@ApiResponse(code = 400, message = "参数错误"), @ApiResponse(code = 401, message = "未授权"),
+            @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
+    @RequestMapping(value = "/result/statistics/show", method = {RequestMethod.GET})
+    public JsonResultData getResultForStatisticsWithLevel(@RequestParam("gpid") String gpid, @RequestParam("jobid") String jobid
+            , @RequestParam("level") String level) {
+        JsonResultData result = checkParams(gpid, jobid, level);
+        if (result != null) {
+            return result;
+        }
+        result = arcGpService.resultForStatisticsWithLevel(Integer.parseInt(gpid), jobid, Long.parseLong(level));
+        return result;
+    }
+
     /**
      * 公共方法，用于进行参数传入的验证
      */
-    private JsonResultData checkParams(String gpid, String jobid) {
+    private JsonResultData checkParams(String gpid, String jobid, String level) {
         if (gpid == null || gpid.length() == 0) {
             return JsonResultData.buildError("gpid不能为空");
         }
         if (jobid == null || jobid.length() == 0) {
             return JsonResultData.buildError("jobid不能为空");
         }
+        if (level == null || level.length() == 0) {
+            return JsonResultData.buildError("level不能为空");
+        }
         try {
             Integer.parseInt(gpid);
         } catch (Exception ex) {
             return JsonResultData.buildError("gpid格式错误");
+        }
+        try {
+            Long.parseLong(level);
+        } catch (Exception ex) {
+            return JsonResultData.buildError("level格式错误");
         }
         return null;
     }

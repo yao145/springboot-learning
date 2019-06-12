@@ -10,6 +10,10 @@
  */
 package com.cjw.springbootstarter.base;
 
+import com.cjw.springbootstarter.domain.onemap.TCode;
+import com.cjw.springbootstarter.domain.onemap.TCodeTdgh;
+import com.cjw.springbootstarter.domain.onemap.TCodeTdly;
+import com.cjw.springbootstarter.domain.onemap.TCodeTdly2007;
 import com.cjw.springbootstarter.domain.sys.TSysAttMapping;
 import com.cjw.springbootstarter.domain.sys.TSysPermissionRole;
 import com.cjw.springbootstarter.domain.sys.TSysPremission;
@@ -46,7 +50,22 @@ public class GlobeVarData {
     public static List<TSysAttMapping> attMappingList = new ArrayList<>();
 
     /**
+     * 土地规划地类编码表
+     */
+    public static List<TCodeTdgh> tdghCodeList = new ArrayList<>();
+
+    /**
+     * 土地利用现状地类编码表：新版
+     */
+    //public static List<TCodeTdly> tdlyCodeList = new ArrayList<>();
+
+    /**
+     * 土地利用现状地类编码表：旧版
+     */
+    public static List<TCodeTdly2007> tdlyCode2007List = new ArrayList<>();
+
+    /**
      * 文件上传下载存储位置
      */
-    public static String FileUploadFolderPath="";
+    public static String FileUploadFolderPath = "";
 }

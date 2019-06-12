@@ -11,6 +11,7 @@
 package com.cjw.springbootstarter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cjw.springbootstarter.base.GlobeVarData;
 import com.cjw.springbootstarter.domain.sys.TSysPermissionRole;
 import com.cjw.springbootstarter.domain.sys.TSysPremission;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -70,5 +72,13 @@ public class UserServiceImpl implements UserService {
                 filter(a -> permissionIdList.contains(a.getId())).collect(Collectors.toList());
         Log4JUtils.getLogger().info("用户【 id=" + userId + "】权限列表获取完成，共计：" + premissionList.size());
         return premissionList;
+    }
+
+    @Override
+    public Page<Map<String, Object>> testMutiTableGetUserList(long userId, int pageNum, int pageSize) {
+        // 新建分页
+        Page<Map<String, Object>> page = new Page<Map<String, Object>>(pageNum, pageSize);
+        List<Map<String, Object>> resultList = userMapper.testMutiTableGetUserList(page, userId);
+        return page.setRecords(resultList);
     }
 }

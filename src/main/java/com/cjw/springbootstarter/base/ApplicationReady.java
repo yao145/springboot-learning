@@ -12,6 +12,9 @@ package com.cjw.springbootstarter.base;
 
 
 import com.cjw.springbootstarter.domain.sys.TSysAttMapping;
+import com.cjw.springbootstarter.mapper.onemap.CodeTdghMapper;
+import com.cjw.springbootstarter.mapper.onemap.CodeTdly2007Mapper;
+import com.cjw.springbootstarter.mapper.onemap.CodeTdlyMapper;
 import com.cjw.springbootstarter.mapper.sys.AttMappingMapper;
 import com.cjw.springbootstarter.mapper.sys.PermissionRoleMapper;
 import com.cjw.springbootstarter.mapper.sys.PremissionMapper;
@@ -56,6 +59,15 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
     @Autowired
     private AttMappingMapper attMappingMapper;
 
+    @Autowired
+    private CodeTdghMapper codeTdghMapper;
+
+    @Autowired
+    private CodeTdlyMapper codeTdlyMapper;
+
+    @Autowired
+    private CodeTdly2007Mapper codeTdly2007Mapper;
+
     @Value("${fileupload.folder.path}")
     private String FileUploadFolderPath;
 
@@ -74,6 +86,10 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
             String attName = attMapping.getAttName();
             attMapping.setAttName(DbUtil.underlineToCamel(attName));
         }
+        //存储全局编码数据
+        GlobeVarData.tdghCodeList = codeTdghMapper.selectList(null);
+        //GlobeVarData.tdlyCodeList = codeTdlyMapper.selectList(null);
+        GlobeVarData.tdlyCode2007List = codeTdly2007Mapper.selectList(null);
 
         //设置文件上传下载存放路径
         GlobeVarData.FileUploadFolderPath = FileUploadFolderPath;
