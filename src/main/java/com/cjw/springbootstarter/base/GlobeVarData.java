@@ -10,13 +10,6 @@
  */
 package com.cjw.springbootstarter.base;
 
-import com.cjw.springbootstarter.domain.TSysPermissionRole;
-import com.cjw.springbootstarter.domain.TSysPremission;
-import com.cjw.springbootstarter.domain.TSysRole;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 〈系统全局变量〉
  *
@@ -25,17 +18,4 @@ import java.util.List;
  * @since 1.0.0
  */
 public class GlobeVarData {
-
-    /**
-     * 权限列表
-     */
-    public static List<TSysPremission> premissionList = new ArrayList<>();
-    /**
-     * 权限-角色对应列表
-     */
-    public static List<TSysPermissionRole> premissionRoleList = new ArrayList<>();
-    /**
-     * 角色列表
-     */
-    public static List<TSysRole> roleList = new ArrayList<>();
 }

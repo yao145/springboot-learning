@@ -2,8 +2,7 @@ package com.cjw.springbootstarter.exception;
 
 
 import com.cjw.springbootstarter.base.JsonResultData;
-import org.apache.shiro.authz.UnauthenticatedException;
-import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,12 +21,9 @@ public class MyExceptionHandler {
         if (e instanceof MyException) {
             MyException xdException = (MyException) e;
             return JsonResultData.buildError(xdException.getMsg(), xdException.getCode());
-        } else if (e instanceof UnauthenticatedException) {
-            return JsonResultData.buildError("用户未授权", -1);
-        }else if(e instanceof UnauthorizedException){
-            return JsonResultData.buildError("用户缺少服务调用权限", -1);
-        }
-        else {
+        } else if(e instanceof MissingServletRequestParameterException){
+            return JsonResultData.buildError("参数传入不全");
+        }else {
             return JsonResultData.buildError("全局异常，未知错误");
         }
     }

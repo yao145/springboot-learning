@@ -10,16 +10,20 @@
  */
 package com.cjw.springbootstarter.controller;
 
+import com.alibaba.druid.sql.visitor.functions.Isnull;
 import com.cjw.springbootstarter.base.ApplicationConstant;
 import com.cjw.springbootstarter.base.JsonResultData;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import io.swagger.annotations.*;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,15 +34,24 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/test")
+@Api(tags = "/test", description = "测试接口入口", protocols = "http")
 public class TestController {
-    /**
-     * 用户查询
-     */
-    @RequestMapping("/userList")
-    @RequiresPermissions("system:user:view")
-    public JsonResultData userInfo() {
-        return JsonResultData.buildSuccess("成功");
+
+
+    @ApiOperation(value = "这是一个规范的接口示例")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "name", required = true, dataType = "String", defaultValue = "长江", value = "名称"),
+            @ApiImplicitParam(paramType = "query", name = "age", dataType = "Integer", defaultValue = "18", value = "年龄")})
+    @ApiResponses({@ApiResponse(code = 400, message = "参数错误"), @ApiResponse(code = 401, message = "未授权"),
+            @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
+    @RequestMapping(value = "/getname", method = {RequestMethod.GET})
+    public JsonResultData getname(@RequestParam("name") String name, @PathParam("age") Integer age) {
+        if (age == null) {
+            age = -1;
+        }
+
+        return JsonResultData.buildSuccess("我叫 " + name + " ,年龄【" + age + "】");
     }
 
 
