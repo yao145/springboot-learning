@@ -12,7 +12,6 @@ package com.cjw.springbootstarter.domain.ags;
 
 import com.cjw.springbootstarter.base.JsonResultData;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -55,23 +54,26 @@ public class GpModelForClib {
             return JsonResultData.buildError("points不能为空");
         } else {
             try {
-                String[] xyList = this.points.split(";");
-                for (String xy : xyList) {
-                    String[] xyxy = xy.split(",");
-                    if (xyxy.length != 2) {
-                        return JsonResultData.buildError("points存在无效的xy点");
+                String[] ringsStr = this.points.split("&");
+                for (String ringStr : ringsStr) {
+                    String[] xyList = ringStr.split(";");
+                    for (String xy : xyList) {
+                        String[] xyxy = xy.split(",");
+                        if (xyxy.length != 2) {
+                            return JsonResultData.buildError("points存在无效的xy点");
+                        }
+                        double x = Double.parseDouble(xyxy[0]);
+                        double y = Double.parseDouble(xyxy[1]);
+                        if (x < -180 || x > 180) {
+                            return JsonResultData.buildError("points存在超出范围的x");
+                        }
+                        if (y < -90 || y > 90) {
+                            return JsonResultData.buildError("points存在超出范围的y");
+                        }
                     }
-                    double x = Double.parseDouble(xyxy[0]);
-                    double y = Double.parseDouble(xyxy[1]);
-                    if (x < -180 || x > 180) {
-                        return JsonResultData.buildError("points存在超出范围的x");
+                    if (xyList.length < 3) {
+                        return JsonResultData.buildError("传入坐标点无法构建面");
                     }
-                    if (y < -90 || y > 90) {
-                        return JsonResultData.buildError("points存在超出范围的y");
-                    }
-                }
-                if (xyList.length < 3) {
-                    return JsonResultData.buildError("传入坐标点无法构建面");
                 }
             } catch (Exception ex) {
                 return JsonResultData.buildError("points格式错误");

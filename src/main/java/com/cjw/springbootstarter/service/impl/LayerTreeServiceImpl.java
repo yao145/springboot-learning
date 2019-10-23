@@ -79,6 +79,8 @@ public class LayerTreeServiceImpl implements LayerTreeService {
             }
             if (serviceEntity.getRealName() == null || "".equals(serviceEntity.getRealName())) {
                 serviceItem.setReal_name(serviceEntity.getServerName());
+            } else {
+                serviceItem.setReal_name(serviceEntity.getRealName());
             }
             serviceItem.setVisible("true".equals(serviceEntity.getVisible()));
             String layerIds = serviceEntity.getLayerIds();

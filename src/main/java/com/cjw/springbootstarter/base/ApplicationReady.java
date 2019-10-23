@@ -12,6 +12,7 @@ package com.cjw.springbootstarter.base;
 
 
 import com.cjw.springbootstarter.domain.sys.TSysAttMapping;
+import com.cjw.springbootstarter.mapper.onemap.CodeGzqMapper;
 import com.cjw.springbootstarter.mapper.onemap.CodeTdghMapper;
 import com.cjw.springbootstarter.mapper.onemap.CodeTdly2007Mapper;
 import com.cjw.springbootstarter.mapper.onemap.CodeTdlyMapper;
@@ -68,8 +69,14 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
     @Autowired
     private CodeTdly2007Mapper codeTdly2007Mapper;
 
+    @Autowired
+    private CodeGzqMapper codeGzqMapper;
+
     @Value("${fileupload.folder.path}")
     private String FileUploadFolderPath;
+
+    @Value("${onemap.excel.temp.tdly}")
+    private String excelTempTdly;
 
     /**
      * 将数据库中的部分数据同步到全局变量
@@ -90,6 +97,8 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
         GlobeVarData.tdghCodeList = codeTdghMapper.selectList(null);
         //GlobeVarData.tdlyCodeList = codeTdlyMapper.selectList(null);
         GlobeVarData.tdlyCode2007List = codeTdly2007Mapper.selectList(null);
+        GlobeVarData.tCodeGzqList = codeGzqMapper.selectList(null);
+
 
         //设置文件上传下载存放路径
         GlobeVarData.FileUploadFolderPath = FileUploadFolderPath;
@@ -97,5 +106,8 @@ public class ApplicationReady implements ApplicationListener<ApplicationReadyEve
         if (directory.exists() == false) {
             directory.mkdir();
         }
+
+        //表格名称赋值
+        GlobeVarData.excelTempTdly = excelTempTdly;
     }
 }

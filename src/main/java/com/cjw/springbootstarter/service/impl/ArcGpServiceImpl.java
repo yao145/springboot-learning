@@ -20,6 +20,7 @@ import com.cjw.springbootstarter.domain.ags.geo.IGeometry;
 import com.cjw.springbootstarter.domain.ags.geo.Polygon;
 import com.cjw.springbootstarter.domain.ags.geo.RuntimeTypeAdapterFactory;
 import com.cjw.springbootstarter.domain.onemap.TCode;
+import com.cjw.springbootstarter.domain.onemap.TCodeGzq;
 import com.cjw.springbootstarter.domain.onemap.TCodeTdgh;
 import com.cjw.springbootstarter.domain.onemap.TCodeTdly;
 import com.cjw.springbootstarter.mapper.ags.ArcGpserverMapper;
@@ -112,7 +113,7 @@ public class ArcGpServiceImpl implements ArcGpService {
                 if (featureJson.getMsg().equals(JsonResultData.SUCCESS)) {
                     //获取要素集合成功
                     Object obj = featureJson.getData();
-                    checkResult.refreshResult(gpserver, (FeatureArray) obj);
+                    checkResult.refreshResult(gpserver, (FeatureArray) obj, jobId);
                 }
             }
             return JsonResultData.buildSuccess(checkResult);
@@ -153,7 +154,7 @@ public class ArcGpServiceImpl implements ArcGpService {
             }
             JsonObject jsonObject = (JsonObject) resultData.getData();
             JsonArray featuresAgs = jsonObject.get("features").getAsJsonArray();
-            if (featuresAgs == null || featuresAgs.size() == 0) {
+            if (featuresAgs == null) {
                 redisTemplate.opsForValue().set(key, "");
                 return JsonResultData.buildError("分析结果为空");
             }
@@ -206,7 +207,7 @@ public class ArcGpServiceImpl implements ArcGpService {
             }
             JsonObject jsonObject = (JsonObject) resultData.getData();
             JsonArray featuresAgs = jsonObject.get("features").getAsJsonArray();
-            if (featuresAgs == null || featuresAgs.size() == 0) {
+            if (featuresAgs == null) {
                 redisTemplate.opsForValue().set(key, "");
                 return JsonResultData.buildError("分析结果为空");
             }
@@ -253,6 +254,9 @@ public class ArcGpServiceImpl implements ArcGpService {
             } else if (gpserver.getName().equals("dltb")) {
                 fieldNameCode = "DLBM";
                 clazz = TCodeTdly.class;
+            } else if (gpserver.getName().equals("gzq")) {
+                fieldNameCode = "GZQLXDM";
+                clazz = TCodeGzq.class;
             } else {
                 return JsonResultData.buildError("无效的地类类型" + gpserver.getName());
             }
@@ -298,6 +302,10 @@ public class ArcGpServiceImpl implements ArcGpService {
             }
             parentCode = code.substring(0, 2);
             GlobeVarData.tdlyCode2007List.stream().forEach(item -> {
+                codeList.add(item);
+            });
+        } else if (clazz == TCodeGzq.class) {
+            GlobeVarData.tCodeGzqList.stream().forEach(item -> {
                 codeList.add(item);
             });
         }

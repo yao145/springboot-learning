@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -74,5 +73,8 @@ public class Swagger2Config implements WebMvcConfigurer {
 
         registry.addResourceHandler("project/**")
                 .addResourceLocations("file:" + FileUploadFolderPath + "project/");
+
+        registry.addResourceHandler("onemap/**")
+                .addResourceLocations("file:" + FileUploadFolderPath + "onemap/");
     }
 }

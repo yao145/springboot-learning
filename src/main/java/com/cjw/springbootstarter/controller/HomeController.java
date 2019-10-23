@@ -7,8 +7,6 @@ import com.cjw.springbootstarter.domain.sys.TSysLoginResult;
 import com.cjw.springbootstarter.domain.sys.TSysUser;
 import com.cjw.springbootstarter.service.LoginService;
 import com.cjw.springbootstarter.service.UserService;
-import com.cjw.springbootstarter.service.impl.LoginServiceImpl;
-import com.cjw.springbootstarter.service.impl.UserServiceImpl;
 import com.cjw.springbootstarter.util.CookieUtils;
 import com.cjw.springbootstarter.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeController {
     @ApiIgnore
     @RequestMapping(value = "/")
-    public String index() {
-        return "redirect:swagger-ui.html";
+    public void index(HttpServletResponse response) throws Exception {
+
+        response.sendRedirect("swagger-ui.html");
     }
 
     @Autowired

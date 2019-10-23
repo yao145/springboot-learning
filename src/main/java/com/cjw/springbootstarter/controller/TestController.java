@@ -12,6 +12,7 @@ package com.cjw.springbootstarter.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cjw.springbootstarter.base.ApplicationConstant;
+import com.cjw.springbootstarter.base.GlobeVarData;
 import com.cjw.springbootstarter.base.JsonResultData;
 import com.cjw.springbootstarter.service.UserService;
 import com.cjw.springbootstarter.util.Log4JUtils;
@@ -22,12 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -124,5 +122,14 @@ public class TestController {
 
         return JsonResultData.buildSuccess(pageList.getRecords());
 
+    }
+
+    /**
+     * 中文乱码测试接口
+     */
+    @RequestMapping("/code")
+    public JsonResultData testFileCode() {
+        Log4JUtils.getLogger().info(GlobeVarData.excelTempTdly);
+        return JsonResultData.buildSuccess(GlobeVarData.excelTempTdly);
     }
 }
