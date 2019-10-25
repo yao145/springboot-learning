@@ -76,5 +76,8 @@ public class Swagger2Config implements WebMvcConfigurer {
 
         registry.addResourceHandler("onemap/**")
                 .addResourceLocations("file:" + FileUploadFolderPath + "onemap/");
+
+        registry.addResourceHandler("cad2json/**")
+                .addResourceLocations("file:" + FileUploadFolderPath + "cad2json/");
     }
 }
