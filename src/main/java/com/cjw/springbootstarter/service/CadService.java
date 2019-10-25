@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface CadService {
 
-    JsonResultData getJsonByCad(String username,String cadRealName, MultipartFile uploadfile);
+    JsonResultData getJsonByCad(String username, MultipartFile uploadfile);
 
     JsonResultData getCadByJson(PolygonVO polygonVO);
 }

@@ -31,7 +31,7 @@ public class PolygonVO implements Serializable {
     @ApiModelProperty(value = "用户名称")
     private String userName;
 
-    @ApiModelProperty(value = "工作任务guid")
+    @ApiModelProperty(value = "工作任务guid,可以为空")
     private String jobGuid;
 
     @ApiModelProperty(value = "点集合，格式为：x1,y1;x2,y2...,如果有多个面，则使用&分开")
