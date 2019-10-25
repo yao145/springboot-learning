@@ -30,7 +30,7 @@ public class CadServiceImpl implements CadService {
     private CadMapper cadMapper;
 
     @Override
-    public JsonResultData getJsonByCad(String username, MultipartFile uploadfile) {
+    public JsonResultData getJsonByCad(String username,String cadRealName, MultipartFile uploadfile) {
         //1 初始化一条数据录记录
         //2 保存cad文件到本地指定文件夹
         //3 调用本地的gp服务：cad转json

@@ -31,11 +31,12 @@ public class CadController {
 
     @ApiOperation(value = "获取cad面要素的json")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "用户名称")})
+            @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "用户名称")
+            , @ApiImplicitParam(paramType = "query", name = "cadrealname", dataType = "String", required = true, value = "文件名称")})
     @ApiResponses({@ApiResponse(code = 400, message = "参数错误"), @ApiResponse(code = 401, message = "未授权"),
             @ApiResponse(code = 403, message = "禁止访问"), @ApiResponse(code = 404, message = "请求路径不对")})
     @RequestMapping(value = "/getJson", method = {RequestMethod.POST}, headers = "content-type=multipart/form-data")
-    public JsonResultData getJsonByCad(@RequestParam("username") String username,
+    public JsonResultData getJsonByCad(@RequestParam("username") String username, @RequestParam("cadrealname") String cadrealname,
                                        @RequestParam(value = "uploadfile", required = true) MultipartFile uploadfile) {
         if (username == null || username.length() == 0) {
             return JsonResultData.buildError("username不能为空");
